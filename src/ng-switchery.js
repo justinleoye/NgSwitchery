@@ -20,9 +20,10 @@ angular.module('NgSwitchery', [])
         function linkSwitchery(scope, elem, attrs, ngModel) {
             if(!ngModel) return false;
             var options = {}, onChange = null;
+
+            onChange = scope.onChange;
             try {
                 options = $parse(attrs.uiSwitch)(scope);
-                onChange = attrs.onChange;
             }
             catch (e) {}
             var switcher;
@@ -51,8 +52,8 @@ angular.module('NgSwitchery', [])
                 element.addEventListener('change',function(evt) {
                     scope.$apply(function() {
                         ngModel.$setViewValue(element.checked);
-                        if(onChange) onChange(ngModel.$getViewValue());
                     })
+                    if(onChange) onChange();
                 })
               }, 0);
             }
@@ -62,7 +63,7 @@ angular.module('NgSwitchery', [])
         return {
             require: 'ngModel',
             restrict: 'AE',
-            scope : {initValue : '=ngModel'},
+            scope : {initValue : '=ngModel', onChange: '=onChange'},
             link: linkSwitchery
         }
     }]);
