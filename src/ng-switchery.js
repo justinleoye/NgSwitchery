@@ -52,8 +52,8 @@ angular.module('NgSwitchery', [])
                 element.addEventListener('change',function(evt) {
                     scope.$apply(function() {
                         ngModel.$setViewValue(element.checked);
+                        if(onChange) onChange();
                     })
-                    if(onChange) onChange();
                 })
               }, 0);
             }
